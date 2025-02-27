@@ -11,39 +11,42 @@
   <li>Consola en modo texto</li>
 </ul>
 
-<h1>Configuración</h1>
-<h2>myframework.properties</h2>
+<h1>Configuración del framework</h1>
 
+<table>
+  <th>Archivo</th>  <th>Ubicación</th>
+  <tr></tr><td>myframework.properties</td>  <td>src/main/java</td></tr>
+</table>
 
-*************************************
-** Archivo: myframework.properties **
-*************************************
-Ubucación: src/main/java
+<ol>
+  <li>Verificar/Modificar los parámetros del correo electrónico</li>
+  <li>Verificar/Modificar los parámetros de la base de datos</li>
+</ol>
 
-a. Verificar/Modificar los parámetros del correo electrónico
-b. Verificar/Modificar los parámetros de la base de datos
+<br>
 
-*************************
-** Archivo: spring.xml **
-*************************
-Ubicación: src/main/java
+<table>
+  <th>Archivo</th>  <th>Ubicación</th>
+  <tr></tr><td>spring.xml</td>  <td>src/main/java</td></tr>
+</table>
 
-a. Agregar los packages necesarios en las siguientes líneas (mantener thejavalistener.fwk):
-   * <context:component-scan base-package="thejavalistener.fwk,app" />
-   * packagesToScan="thejavalistener.fwk,app"   
-b. Verificar/Modificar la configuración de la base de datos
-     * 	<bean id="DataBaseConfig" ...
+<ol>
+  <li>Agregar los packages necesarios en las siguientes líneas, manteneniendo siempre <b>thejavalistener.fwk</b></i>:
+  <ol>
+    <li>&lt;context:component-scan base-package="<b>thejavalistener.fwk</b>, app" /&gt;</li>
+    <li>packagesToScan="<b>thejavalistener.fwk</b>, app"  </li>
+  </ol>
+  </li>
+  <li>Modificar/Eluminar la base de datos por default:
+  <ol>
+    <li>Para eliminarla: borrar el bean hsqlServer</li>
+    <li>Para mantenerla: modificar el bean: defaultDataBase</li>
+  </ol>
+  </li>
+</ol>
 
-*************************************
-** Base De Datos (defaultDataBase) **
-*************************************
-
-spring.xml define el bean defaultDataBase que levanta una base de datos por defecto. Para trabajar
-acon otra base de datos se debe eliminar la configuración de este bean.
-
-*************************
-** Pantallas (Screens) **
-*************************
-
+<h1>Pantallsa de demostración</h1>
+<p>
 El framework provee una consola SQL/HQL llamada HQLScreen. La aplicación demo provee diversas
 pantallas que ilustran la principal funcionalidad del framework.
+</p>
