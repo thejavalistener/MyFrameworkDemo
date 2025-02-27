@@ -13,6 +13,10 @@
 	<context:property-placeholder location="classpath:myframework.properties"/>
 	<context:component-scan base-package="thejavalistener.fwk,app" />
 	<context:annotation-config />
+
+	<bean id="hsqlServer" class="org.hsqldb.server.Server" init-method="start" destroy-method="stop">
+		<property name="properties" ref="defaultDataBase" />
+	</bean>
 	
 	<bean id="defaultDataBase" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
     	<property name="properties">
@@ -23,9 +27,6 @@
 	    </property>
 	</bean>
 	
-	<bean id="hsqlServer" class="org.hsqldb.server.Server" init-method="start" destroy-method="stop">
-		<property name="properties" ref="defaultDataBase" />
-	</bean>
 	
 	<bean id="p6DataSource" class="com.p6spy.engine.spy.P6DataSource" primary="true">
 	    <constructor-arg>
