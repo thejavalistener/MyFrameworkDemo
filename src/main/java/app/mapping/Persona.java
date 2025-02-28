@@ -16,7 +16,7 @@ public class Persona
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_persona")
-	private int idPersona;
+	private Integer idPersona;
 
 	@Column(name="nombre")
 	private String nombre;
@@ -24,11 +24,11 @@ public class Persona
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
 
-	public int getIdPersona()
+	public Integer getIdPersona()
 	{
 		return idPersona;
 	}
-	public void setIdPersona(int idPersona)
+	public void setIdPersona(Integer idPersona)
 	{
 		this.idPersona=idPersona;
 	}
