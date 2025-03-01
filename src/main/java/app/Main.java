@@ -18,7 +18,7 @@ public class Main
 	    // levanto el contexto de spring		
 	    ApplicationContext ctx=new ClassPathXmlApplicationContext("classpath:/spring.xml");
 	    
-	    
+	     
 	    // application container
 		MyAppContainer appContainer = ctx.getBean(MyAppContainer.class);
 		appContainer.createApp("Personas ABM",PersonasABMDemoScreen.class);	

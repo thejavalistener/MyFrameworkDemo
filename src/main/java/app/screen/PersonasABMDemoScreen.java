@@ -20,13 +20,16 @@ import thejavalistener.fwk.awt.form.MyForm;
 import thejavalistener.fwk.awt.list.MyComboBox;
 import thejavalistener.fwk.awt.list.MyJComboBox;
 import thejavalistener.fwk.awt.textarea.MyTextField;
+import thejavalistener.fwk.console.MyConsole;
+import thejavalistener.fwk.console.MyConsoleBase;
 import thejavalistener.fwk.frontend.MyValidation;
-import thejavalistener.fwk.frontend.ScreenTemplate;
+import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
+import thejavalistener.fwk.util.MyThread;
 import thejavalistener.fwk.util.UDate;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
-public class PersonasABMDemoScreen extends ScreenTemplate
+public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 {
 	@Autowired
 	private Facade facade;
@@ -134,8 +137,12 @@ public class PersonasABMDemoScreen extends ScreenTemplate
 					p.setIdPersona(cbPersonas.getSelectedItem().getIdPersona());
 				}
 				
-				facade.altaOModificacion(p);
+				int op = facade.altaOModificacion(p);
+				String sOp = op==1?"agregada":"modificada";
+				
+				getConsole().println("La persona "+p.getNombre()+" fue "+sOp+"!");
 
+				
 				// actualiza los combos y listas
 				dataUpdated();
 				
@@ -152,15 +159,28 @@ public class PersonasABMDemoScreen extends ScreenTemplate
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
+			MyConsole c = getConsole();
+			
 			if( !cbPersonas.isSpecialItemSelected() )
 			{
 				Persona p = cbPersonas.getSelectedItem();
-				facade.eliminar(p);
 				
-				// actualiza los combos y listas
-				dataUpdated();
+				String conf = c.print("Confirma eliminar a: "+p.getNombre()+" (SI/NO)?").input().valid(s->MyString.oneOf(s,"SI","NO")).mask(MyConsole.UPPERCASE).readln();
+				if( conf.equals("SI") )
+				{
+					facade.eliminar(p);
+					c.println("La persona "+p.getNombre()+" fue eliminada!");
+
+					// actualiza los combos y listas
+					dataUpdated();
+					
+					_clearForm();
+				}
+				else
+				{
+					c.println("No se registraron cambios.");
+				}
 				
-				_clearForm();
 			}
 		}
 	}

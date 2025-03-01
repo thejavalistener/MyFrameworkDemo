@@ -13,18 +13,23 @@ import thejavalistener.fwk.backend.DaoSupport;
 public class Facade extends DaoSupport
 {
 	@Transactional
-	public void altaOModificacion(Persona p)
+	public Integer altaOModificacion(Persona p)
 	{
+		int ret;
 		if( p.getIdPersona()==null )
 		{
 			insert(p);
+			ret = 1;
 		}
 		else
 		{
 			Persona x = find(Persona.class,p.getIdPersona());
 			x.setNombre(p.getNombre());
 			x.setFechaNacimiento(p.getFechaNacimiento());
+			ret = 2;
 		}
+		
+		return ret;
 	}
 	
 	@Transactional
