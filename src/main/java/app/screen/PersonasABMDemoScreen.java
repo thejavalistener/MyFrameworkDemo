@@ -140,7 +140,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				int op = facade.altaOModificacion(p);
 				String sOp = op==1?"agregada":"modificada";
 				
-				getConsole().println("La persona "+p.getNombre()+" fue "+sOp+"!");
+				getConsole().println("La persona : "+p.getNombre()+" fue "+sOp+"!");
 
 				
 				// actualiza los combos y listas
@@ -165,11 +165,11 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			{
 				Persona p = cbPersonas.getSelectedItem();
 				
-				String conf = c.print("Confirma eliminar a: "+p.getNombre()+" (SI/NO)?").input().valid(s->MyString.oneOf(s,"SI","NO")).mask(MyConsole.UPPERCASE).readln();
+				String conf = c.printFmt("Confirma eliminar a: [b]"+p.getNombre()+"[x] ([i]SI[x]/[i]NO[x])? ").input().oneOfln("SI","NO");
 				if( conf.equals("SI") )
 				{
 					facade.eliminar(p);
-					c.println("La persona "+p.getNombre()+" fue eliminada!");
+					c.printFmt("La persona "+p.getNombre()+" [fg(RED)]fue eliminada![x]");
 
 					// actualiza los combos y listas
 					dataUpdated();
