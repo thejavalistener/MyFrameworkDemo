@@ -21,9 +21,9 @@ import thejavalistener.fwk.awt.list.MyComboBox;
 import thejavalistener.fwk.awt.list.MyJComboBox;
 import thejavalistener.fwk.awt.textarea.MyTextField;
 import thejavalistener.fwk.console.MyConsole;
-import thejavalistener.fwk.console.MyConsoleBase;
 import thejavalistener.fwk.frontend.MyValidation;
 import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
+import thejavalistener.fwk.frontend.hql.console.Progress;
 import thejavalistener.fwk.util.MyThread;
 import thejavalistener.fwk.util.UDate;
 import thejavalistener.fwk.util.string.MyString;
@@ -44,6 +44,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 	private MyTextField tfFechaNacimiento;
 	private JButton bGuardar;
 	private JButton bEliminar;
+	private JButton bGenerar;
 			
 	@Override
 	protected void createUI()
@@ -71,6 +72,11 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 		bGuardar = new JButton("Guardar");
 		bGuardar.addActionListener(new EscuchaGuardar());
 		form.addRow().add(bEliminar).add(bGuardar);
+
+		form.addSeparator();
+		
+		form.addRowR().add(bGenerar=new JButton("Generar Personas"));
+		bGenerar.addActionListener(new EscuchaGenerar());
 		
 		form.makeForm();
 		
@@ -140,8 +146,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				int op = facade.altaOModificacion(p);
 				String sOp = op==1?"agregada":"modificada";
 				
-				getConsole().println("La persona : "+p.getNombre()+" fue "+sOp+"!");
-
+				getConsole().println("[fg(GREEN)]La persona : "+p.getNombre()+" fue correctamente "+sOp+"![x]");
 				
 				// actualiza los combos y listas
 				dataUpdated();
@@ -165,11 +170,11 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			{
 				Persona p = cbPersonas.getSelectedItem();
 				
-				String conf = c.printFmt("Confirma eliminar a: [b]"+p.getNombre()+"[x] ([i]SI[x]/[i]NO[x])? ").input().oneOfln("SI","NO");
+				String conf = c.print("[fg(YELLOW)]Confirma eliminar a: [b]"+p.getNombre()+"[x] (SI/NO)?[x] ").input().oneOfln("SI","NO");
 				if( conf.equals("SI") )
 				{
 					facade.eliminar(p);
-					c.printFmt("La persona "+p.getNombre()+" [fg(RED)]fue eliminada![x]");
+					c.println("[fg(RED)]La persona "+p.getNombre()+" fue correctamente eliminada![x]");
 
 					// actualiza los combos y listas
 					dataUpdated();
@@ -182,6 +187,36 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				}
 				
 			}
+		}
+	}
+	
+	class EscuchaGenerar implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			MyConsole c = getConsole();
+			int n = c.print("Cuantas personas quiere generar? ").readlnInteger();
+			
+			Progress p = c.progressBar(20,n);
+			p.execute(()->{
+				for(int i=0; i<n; i++)
+				{
+					Persona pers = new Persona();
+					pers.setNombre(MyString.generateRandom('a','z',5,9));
+					pers.setFechaNacimiento(new UDate().random(1945,2024));
+					facade.altaOModificacion(pers);
+					
+					MyThread.randomSleep(300);
+					
+					p.increase();
+				}
+			});
+			
+			long secs = p.elapsedTime()/1000;
+			c.println();
+			c.println(n+" personas fueron generadas con éxito en "+secs+" segundos.");
+			dataUpdated();
 		}
 	}
 		
