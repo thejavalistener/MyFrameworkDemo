@@ -3,6 +3,7 @@ package app;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import app.screen.ConsoleDemoScreen;
 import app.screen.PersonasABMDemoScreen;
 import thejavalistener.fwk.awt.MyAwt;
 import thejavalistener.fwk.frontend.MyAppContainer;
@@ -22,6 +23,7 @@ public class Main
 	    // application container
 		MyAppContainer appContainer = ctx.getBean(MyAppContainer.class);
 		appContainer.createApp("Personas ABM",PersonasABMDemoScreen.class);	
+		appContainer.createApp("Demo Consola",ConsoleDemoScreen.class);	
 		appContainer.createApp("Consola HQL",HQLScreen.class);	
 
 		appContainer.init();

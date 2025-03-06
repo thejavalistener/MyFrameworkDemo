@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.Facade;
 import app.mapping.Persona;
+import thejavalistener.fwk.awt.MyAwt;
 import thejavalistener.fwk.awt.MyException;
 import thejavalistener.fwk.awt.MyFocusTraversalPolicy;
 import thejavalistener.fwk.awt.form.MyForm;
@@ -24,6 +25,7 @@ import thejavalistener.fwk.console.MyConsole;
 import thejavalistener.fwk.console.Progress;
 import thejavalistener.fwk.frontend.MyValidation;
 import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
+import thejavalistener.fwk.util.MyRegex;
 import thejavalistener.fwk.util.MyThread;
 import thejavalistener.fwk.util.UDate;
 import thejavalistener.fwk.util.string.MyString;
@@ -89,7 +91,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 		
 		validations = new MyValidation();
 		validations.assertTrue("nombre","Debe ingresar el nombre",()->!tfNombre.getText().isEmpty());
-		validations.assertTrue("fechaNacimiento","La fecha debe tener este formato (dd-mm-aaaa)",()->MyString.matches(tfFechaNacimiento.getText(),MyString.DATE_DDMMYYYY_REGEX));
+		validations.assertTrue("fechaNacimiento","La fecha debe tener este formato (dd-mm-aaaa)",()->MyString.matches(tfFechaNacimiento.getText(),MyRegex.DATE_DDMMYYYY));
 	}
 	
 	private void _clearForm()
@@ -169,7 +171,9 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			if( !cbPersonas.isSpecialItemSelected() )
 			{
 				Persona p = cbPersonas.getSelectedItem();
-				
+
+				form.setEnabled(false);
+				allowAppSwitch(false);
 				String conf = c.print("[fg(YELLOW)]Confirma eliminar a: [b]"+p.getNombre()+"[x] (SI/NO)?[x] ").input().oneOfln("SI","NO");
 				if( conf.equals("SI") )
 				{
@@ -185,6 +189,8 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				{
 					c.println("No se registraron cambios.");
 				}
+				form.setEnabled(true);
+				allowAppSwitch(true);
 				
 			}
 		}
@@ -196,6 +202,9 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 		public void actionPerformed(ActionEvent e)
 		{
 			MyConsole c = getConsole();
+
+			allowAppSwitch(false);
+			form.setEnabled(false);
 			int n = c.print("Cuantas personas quiere generar? ").readlnInteger();
 			
 			Progress p = c.progressBar(20,n);
@@ -217,6 +226,9 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			c.println();
 			c.println(n+" personas fueron generadas con éxito en "+secs+" segundos.");
 			dataUpdated();
+			form.setEnabled(true);
+			allowAppSwitch(true);
+
 		}
 	}
 		
