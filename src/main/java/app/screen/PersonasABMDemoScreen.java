@@ -173,7 +173,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				Persona p = cbPersonas.getSelectedItem();
 
 				form.setEnabled(false);
-				allowAppSwitch(false);
+//				allowAppSwitch(false);
 				String conf = c.print("[fg(YELLOW)]Confirma eliminar a: [b]"+p.getNombre()+"[x] (SI/NO)?[x] ").input().oneOfln("SI","NO");
 				if( conf.equals("SI") )
 				{
@@ -190,7 +190,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 					c.println("No se registraron cambios.");
 				}
 				form.setEnabled(true);
-				allowAppSwitch(true);
+//				allowAppSwitch(true);
 				
 			}
 		}
@@ -203,7 +203,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 		{
 			MyConsole c = getConsole();
 
-			allowAppSwitch(false);
+//			allowAppSwitch(false);
 			form.setEnabled(false);
 			int n = c.print("Cuantas personas quiere generar? ").readlnInteger();
 			
@@ -227,7 +227,7 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			c.println(n+" personas fueron generadas con éxito en "+secs+" segundos.");
 			dataUpdated();
 			form.setEnabled(true);
-			allowAppSwitch(true);
+//			allowAppSwitch(true);
 
 		}
 	}

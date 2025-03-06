@@ -35,9 +35,6 @@ import thejavalistener.fwk.util.string.MyString;
 @Component
 public class ConsoleDemoScreen extends MyAbstractScreen
 {
-	@Autowired
-	private Facade facade;
-	
 	private MyConsole c;
 	
 	@Override
