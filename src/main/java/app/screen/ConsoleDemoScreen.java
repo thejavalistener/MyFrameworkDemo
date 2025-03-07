@@ -91,12 +91,27 @@ public class ConsoleDemoScreen extends MyAbstractScreen
 		p.execute(()->{
 			for(int i=0; i<100; i++)
 			{
-				MyThread.randomSleep(300);
-				p.increase();
+				MyThread.randomSleep(230);
+				p.increase(MyString.generateRandom());
 			}
 		}).ln();
 		
 		c.println("Process time: "+p.elapsedTime()/1000+" secs.");
+		
+		
+		c.print("Other processing, using meter: ");
+		Progress q = c.progressMeter(100);
+		q.execute(()->{
+			for(int i=0; i<100; i++)
+			{
+				MyThread.randomSleep(150);
+				q.increase();
+			}
+		}).ln();
+		
+		c.println("Process time: "+q.elapsedTime()/1000+" secs.");
+		
+		
 		
 		c.println("Press 'X' key to finish this Console Demo").pressAnyKey('X');
 		
