@@ -65,7 +65,7 @@ public class ConsoleDemoScreen extends MyAbstractScreen
 		c.println("Hi, "+name);
 
 		String pwd = c.print("Enter your password:").readlnPassword();
-		c.println("Your password is: |"+pwd+"| ;o)");	
+		c.println("Your password is: \""+pwd+"\"    [fg(ORANGE)]:o)[x]");	
 		
 		int age = c.print("How years old are you ?").readlnInteger();
 		c.println("You are "+age+" years old...");
@@ -80,6 +80,10 @@ public class ConsoleDemoScreen extends MyAbstractScreen
 		String x = c.print("Happy (YES/NO)? ").input().oneOfln("YES","NO");
 		c.println("Veo que "+x+" estás contento...");
 				
+
+		String fName = c.println("Select a file: ").fileExplorer();
+		c.println("Your file is: "+fName);
+		
 		c.println("Press any key to start a process...").pressAnyKey();
 		
 		c.print("Processing: ");

@@ -14,12 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.Facade;
 import app.mapping.Persona;
-import thejavalistener.fwk.awt.MyAwt;
 import thejavalistener.fwk.awt.MyException;
 import thejavalistener.fwk.awt.MyFocusTraversalPolicy;
 import thejavalistener.fwk.awt.form.MyForm;
+import thejavalistener.fwk.awt.link.MyLink;
+import thejavalistener.fwk.awt.link.MyLinkButton;
 import thejavalistener.fwk.awt.list.MyComboBox;
 import thejavalistener.fwk.awt.list.MyJComboBox;
+import thejavalistener.fwk.awt.searchbox.MySearchBox;
 import thejavalistener.fwk.awt.textarea.MyTextField;
 import thejavalistener.fwk.console.MyConsole;
 import thejavalistener.fwk.console.Progress;
@@ -60,8 +62,11 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 		form.addRow().add(cbPersonas.c()).layout(1);
 		
 		// textField nombre y fechaNacimiento
+		
+		MyLinkButton lnkPersona = new MyLinkButton("Nombre");
+		lnkPersona.setActionListener(new EscuchaLinkPersona());
 		tfNombre = new MyTextField();
-		form.addRow().add("Nombre").add(tfNombre.c()).layout(.3,.7);
+		form.addRow().add(lnkPersona.c()).add(tfNombre.c()).layout(.3,.7);
 		
 		tfFechaNacimiento = new MyTextField();
 		form.addRow().add("Fec. Nac.").add(tfFechaNacimiento.c()).layout(.3,.7);
@@ -231,6 +236,27 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 
 		}
 	}
+	
+	@Autowired
+	private PersonaSearchBoxController controller;
+	
+	class EscuchaLinkPersona implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			MySearchBox<Persona> msb = createSearchBox(Persona.class,controller);
+			
+			msb.getTable().headers("Nombre","Fecha de nacimiento").layout(100,50);
+			msb.getTable().setBeanToObjectArrayPolicy(p->new Object[]{p.getNombre(),p.getFechaNacimiento()});
+			Persona pSelected = msb.show();
+			if( pSelected!=null )
+			{
+				cbPersonas.setSelectedItem(p->p.getNombre().equals(pSelected.getNombre()));
+				cbPersonas.forceItemEvent();
+			}
+		}
+	}
+
 		
 	@Override
 	public String getName()

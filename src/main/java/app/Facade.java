@@ -43,4 +43,10 @@ public class Facade extends DaoSupport
 	{
 		return queryMultipleRows("FROM Persona p");
 	}
+
+	public List<Persona> buscarPorNombre(String pattern)
+	{
+		String hql = "FROM Persona p WHERE LOWER(p.nombre) LIKE LOWER('%" + pattern.toString() + "%') ";
+		return queryMultipleRows(hql);
+	}
 }
