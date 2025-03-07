@@ -1,50 +1,20 @@
 package app.screen;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import app.Facade;
-import app.mapping.Persona;
-import thejavalistener.fwk.awt.MyException;
-import thejavalistener.fwk.awt.MyFocusTraversalPolicy;
-import thejavalistener.fwk.awt.form.MyForm;
-import thejavalistener.fwk.awt.list.MyComboBox;
-import thejavalistener.fwk.awt.list.MyJComboBox;
-import thejavalistener.fwk.awt.textarea.MyTextField;
-import thejavalistener.fwk.console.MyConsole;
 import thejavalistener.fwk.console.Progress;
-import thejavalistener.fwk.frontend.MyAbstractScreen;
-import thejavalistener.fwk.frontend.MyValidation;
 import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
+import thejavalistener.fwk.util.MyColor;
 import thejavalistener.fwk.util.MyRegex;
 import thejavalistener.fwk.util.MyThread;
-import thejavalistener.fwk.util.UDate;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
-public class ConsoleDemoScreen extends MyAbstractScreen
+public class ConsoleDemoScreen extends ScreenConsoleTemplate
 {
-	private MyConsole c;
-	
 	@Override
 	protected void createUI()
 	{
-		c = new MyConsole(this);
-		
-		JScrollPane scrollPane = new JScrollPane(c.getTextPane().c());
-		setLayout(new BorderLayout());
-		add(scrollPane,BorderLayout.CENTER);
 	}
 			
 	@Override
@@ -57,65 +27,63 @@ public class ConsoleDemoScreen extends MyAbstractScreen
 	{
 		allowAppSwitch(false);
 
-		c.cls();
-		c.banner("You are Welcome!");
-		c.println("Plesae, press any key continue...").pressAnyKey();
+		console.cls();
+		console.banner("You are Welcome!");
+		console.println("Plesae, press any key continue...").pressAnyKey();
 
-		String name = c.print("What's your name? ").readlnString();
-		c.println("Hi, "+name);
+		String name = console.print("What's your name? ").readlnString();
+		console.println("Hi, "+name);
 
-		String pwd = c.print("Enter your password:").readlnPassword();
-		c.println("Your password is: \""+pwd+"\"    [fg(ORANGE)]:o)[x]");	
+		String pwd = console.print("Enter your password:").readlnPassword();
+		console.println("Your password is: \""+pwd+"\"    [fg(ORANGE)]:o)[x]");	
 		
-		int age = c.print("How years old are you ?").readlnInteger();
-		c.println("You are "+age+" years old...");
+		int age = console.print("How years old are you ?").readlnInteger();
+		console.println("You are "+age+" years old...");
 		
-		String email = c.print("What's your email? ").readlnString(MyRegex.EMAIL);
-		c.println("Your email is: "+email);
+		String email = console.print("What's your email? ").readlnString(MyRegex.EMAIL);
+		console.println("Your email is: "+email);
 		
 		String ops[] = {"Mar del Plata","Pinamar","Necochea","Mar de Ajo","Miramar"};
-		int op = c.print("Where you goin on vacatio? ").menuln(ops);
-		c.println("Qué capo! Your hollidays will be in: "+ops[op]);
+		int op = console.print("Where you goin on vacatio? ").menuln(ops);
+		console.println("Qué capo! Your hollidays will be in: "+ops[op]);
 		
-		String x = c.print("Happy (YES/NO)? ").input().oneOfln("YES","NO");
-		c.println("Veo que "+x+" estás contento...");
+		String x = console.print("Happy (YES/NO)? ").input().oneOfln("YES","NO");
+		console.println("Veo que "+x+" estás contento...");
 				
-
-		String fName = c.println("Select a file: ").fileExplorer();
-		c.println("Your file is: "+fName);
+//		String fName = console.println("Select a file: ").fileExplorer();
+//		console.println("Your file is: "+fName);
 		
-		c.println("Press any key to start a process...").pressAnyKey();
+		console.println("Press any key to start a process...").pressAnyKey();
 		
-		c.print("Processing: ");
-		Progress p = c.progressBar(20,100);
+		console.print("Processing: ");
+		Progress p = console.progressBar(20,100);
 		p.execute(()->{
 			for(int i=0; i<100; i++)
 			{
 				MyThread.randomSleep(230);
-				p.increase(MyString.generateRandom());
+				String mssg = MyString.generateRandom()+" [fg("+MyColor.randomHexColorString()+")]"+MyString.generateRandom()+"[x]"; 
+				p.increase(mssg);
 			}
 		}).ln();
 		
-		c.println("Process time: "+p.elapsedTime()/1000+" secs.");
+		console.println("Process time: "+p.elapsedTime()/1000+" secs.");
 		
 		
-		c.print("Other processing, using meter: ");
-		Progress q = c.progressMeter(100);
+		console.print("Other processing, using meter: ");
+		Progress q = console.progressMeter(100);
 		q.execute(()->{
 			for(int i=0; i<100; i++)
 			{
 				MyThread.randomSleep(150);
-				q.increase();
+				q.increase(MyString.generateRandom());
 			}
 		}).ln();
 		
-		c.println("Process time: "+q.elapsedTime()/1000+" secs.");
+		console.println("Process time: "+q.elapsedTime()/1000+" secs.");
 		
+		console.println("Press 'X' key to finish this Console Demo").pressAnyKey('X');
 		
-		
-		c.println("Press 'X' key to finish this Console Demo").pressAnyKey('X');
-		
-		c.println("Now you can choce any other demo app!");
+		console.println("Now you can choce any other demo app!");
 		allowAppSwitch(true);
 	}
 		

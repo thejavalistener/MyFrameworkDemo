@@ -23,18 +23,19 @@ import thejavalistener.fwk.awt.link.MyLinkButton;
 import thejavalistener.fwk.awt.list.MyComboBox;
 import thejavalistener.fwk.awt.list.MyJComboBox;
 import thejavalistener.fwk.awt.searchbox.MySearchBox;
+import thejavalistener.fwk.awt.searchbox.MySearchBoxController;
 import thejavalistener.fwk.awt.textarea.MyTextField;
 import thejavalistener.fwk.console.MyConsole;
 import thejavalistener.fwk.console.Progress;
 import thejavalistener.fwk.frontend.MyValidation;
-import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
+import thejavalistener.fwk.frontend.ScreenFormConsoleTemplate;
 import thejavalistener.fwk.util.MyRegex;
 import thejavalistener.fwk.util.MyThread;
 import thejavalistener.fwk.util.UDate;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
-public class PersonasABMDemoScreen extends ScreenConsoleTemplate
+public class FormConsoleDemoScreen extends ScreenFormConsoleTemplate
 {
 	@Autowired
 	private Facade facade;
@@ -256,11 +257,24 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			}
 		}
 	}
-
 		
 	@Override
 	public String getName()
 	{
 		return "ABM Personas";
+	}
+	
+	@Component
+	public class PersonaSearchBoxController implements MySearchBoxController<Persona>
+	{
+		@Autowired
+		private Facade facade;
+		
+		@Override
+		public List<Persona> dataRequested(String toSearch)
+		{
+			return facade.buscarPorNombre(toSearch);
+		}
+
 	}
 }
