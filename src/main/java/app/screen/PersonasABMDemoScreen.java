@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 
@@ -14,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.Facade;
 import app.mapping.Persona;
+import thejavalistener.fwk.awt.MyAwt;
 import thejavalistener.fwk.awt.MyException;
 import thejavalistener.fwk.awt.MyFocusTraversalPolicy;
 import thejavalistener.fwk.awt.form.MyForm;
-import thejavalistener.fwk.awt.link.MyLink;
 import thejavalistener.fwk.awt.link.MyLinkButton;
 import thejavalistener.fwk.awt.list.MyComboBox;
 import thejavalistener.fwk.awt.list.MyJComboBox;
@@ -177,8 +178,8 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 			{
 				Persona p = cbPersonas.getSelectedItem();
 
-				form.setEnabled(false);
-//				allowAppSwitch(false);
+				Map<?,?> x = MyAwt.disableTemporally(form.c());
+
 				String conf = c.print("[fg(YELLOW)]Confirma eliminar a: [b]"+p.getNombre()+"[x] (SI/NO)?[x] ").input().oneOfln("SI","NO");
 				if( conf.equals("SI") )
 				{
@@ -194,9 +195,8 @@ public class PersonasABMDemoScreen extends ScreenConsoleTemplate
 				{
 					c.println("No se registraron cambios.");
 				}
-				form.setEnabled(true);
-//				allowAppSwitch(true);
 				
+				MyAwt.restoreDisabled(x);				
 			}
 		}
 	}
