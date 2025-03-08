@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import thejavalistener.fwk.console.Progress;
 import thejavalistener.fwk.frontend.ScreenConsoleTemplate;
 import thejavalistener.fwk.util.MyColor;
-import thejavalistener.fwk.util.MyRegex;
 import thejavalistener.fwk.util.MyThread;
+import thejavalistener.fwk.util.string.MyRegex;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component

@@ -29,9 +29,9 @@ import thejavalistener.fwk.console.MyConsole;
 import thejavalistener.fwk.console.Progress;
 import thejavalistener.fwk.frontend.MyValidation;
 import thejavalistener.fwk.frontend.ScreenFormConsoleTemplate;
-import thejavalistener.fwk.util.MyRegex;
 import thejavalistener.fwk.util.MyThread;
 import thejavalistener.fwk.util.UDate;
+import thejavalistener.fwk.util.string.MyRegex;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
@@ -98,7 +98,7 @@ public class FormConsoleDemoScreen extends ScreenFormConsoleTemplate
 		
 		validations = new MyValidation();
 		validations.assertTrue("nombre","Debe ingresar el nombre",()->!tfNombre.getText().isEmpty());
-		validations.assertTrue("fechaNacimiento","La fecha debe tener este formato (dd-mm-aaaa)",()->MyString.matches(tfFechaNacimiento.getText(),MyRegex.DATE_DDMMYYYY));
+		validations.assertTrue("fechaNacimiento","La fecha debe tener este formato (dd-mm-aaaa)",()->MyRegex.matches(tfFechaNacimiento.getText(),MyRegex.DATE_DDMMYYYY));
 	}
 	
 	private void _clearForm()
@@ -111,8 +111,8 @@ public class FormConsoleDemoScreen extends ScreenFormConsoleTemplate
 	@Override
 	public void onDataUpdated()
 	{
-		List<Persona> cursos=facade.obtenerPersonas();
-		cbPersonas.setItems(cursos);
+		List<Persona> personas=facade.obtenerPersonas();
+		cbPersonas.setItems(personas);
 		cbPersonas.selectSpecialItem();
 	}
 	
