@@ -51,7 +51,7 @@ public class FormConsolaDemoScreen extends ScreenFormConsoleTemplate
 	private JButton bGuardar;
 	private JButton bEliminar;
 	private JButton bGenerar;
-			
+				
 	@Override
 	protected void createUI()
 	{
@@ -95,7 +95,7 @@ public class FormConsolaDemoScreen extends ScreenFormConsoleTemplate
 		fp.add(tfFechaNacimiento.c());
 		fp.add(bEliminar);
 		fp.add(bGuardar);
-		
+	
 		validations = new MyValidation();
 		validations.assertTrue("nombre","Debe ingresar el nombre",()->!tfNombre.getText().isEmpty());
 		validations.assertTrue("fechaNacimiento","La fecha debe tener este formato (dd-mm-aaaa)",()->MyRegex.matches(tfFechaNacimiento.getText(),MyRegex.DATE_DDMMYYYY));

@@ -34,6 +34,9 @@ public class ConsolaScreen extends ScreenConsoleTemplate
 		String name = console.print("What's your name? ").readlnString();
 		console.println("Hi, "+name);
 
+		String defval = console.print("Where you live? ").input().defval("Argentina").valid(s->!s.isEmpty()).readln();
+		console.println("You live in "+defval);
+
 		String pwd = console.print("Enter your password:").readlnPassword();
 		console.println("Your password is: \""+pwd+"\"    [fg(ORANGE)]:o)[x]");	
 		
