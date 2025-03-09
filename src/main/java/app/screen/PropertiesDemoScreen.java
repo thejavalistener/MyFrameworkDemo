@@ -101,8 +101,8 @@ public class PropertiesDemoScreen extends ScreenFormConsoleTemplate
 		
 	@Override
 	public void onDataUpdated()
-	{
-		List<Pair> props = properties.getAll(getClass());
+	{	
+		List<Pair> props = properties.getAll(PropertiesDemoScreen.class);
 		cbProperties.setItems(props);
 		cbProperties.selectSpecialItem();
 	}
@@ -143,7 +143,7 @@ public class PropertiesDemoScreen extends ScreenFormConsoleTemplate
 				String s = console.print("Se "+action+" el valor de: "+tfPropName.getText()+". Confirma? (SI/NO)").input().oneOfln("SI","NO");
 				if( s.equals("SI") )
 				{
-					properties.putString(getOuter().getClass(),propName,propValue);
+					properties.putString(PropertiesDemoScreen.class,propName,propValue);
 					String action2 = pair!=null?"actualizada":"creada";
 					console.println("La propiedad "+propName+" ha sido "+action2+".");
 					
@@ -172,12 +172,11 @@ public class PropertiesDemoScreen extends ScreenFormConsoleTemplate
 			if( pair!=null )
 			{
 				String propName = pair.getStringA();
-				String propValue = tfPropValue.getText();
 				
 				String s = console.print("Se eliminará la propiedad "+pair.getStringA()+". Confirma? (SI/NO)").input().oneOfln("SI","NO");
 				if( s.equals("SI") )
 				{
-					properties.putString(propName,propValue);
+					properties.remove(PropertiesDemoScreen.class,propName);
 					console.println("La propiedad "+propName+" ha sido eliminada.");
 				}
 				else

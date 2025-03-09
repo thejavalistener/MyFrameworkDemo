@@ -35,7 +35,7 @@ import thejavalistener.fwk.util.string.MyRegex;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
-public class FormConsoleDemoScreen extends ScreenFormConsoleTemplate
+public class FormConsolaDemoScreen extends ScreenFormConsoleTemplate
 {
 	@Autowired
 	private Facade facade;

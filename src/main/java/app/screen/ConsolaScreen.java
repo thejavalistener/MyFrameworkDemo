@@ -10,7 +10,7 @@ import thejavalistener.fwk.util.string.MyRegex;
 import thejavalistener.fwk.util.string.MyString;
 
 @Component
-public class ConsoleDemoScreen extends ScreenConsoleTemplate
+public class ConsolaScreen extends ScreenConsoleTemplate
 {
 	@Override
 	protected void createUI()
