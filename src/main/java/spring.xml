@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:property-placeholder location="classpath:myframework.properties"/>
+	<context:component-scan base-package="thejavalistener.fwk,app" />
+	<context:annotation-config />
+
+	<bean id="hsqlServer" class="org.hsqldb.server.Server" init-method="start" destroy-method="stop">
+		<property name="properties" ref="defaultDataBase" />
+	</bean>
+	
+	<bean id="defaultDataBase" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    	<property name="properties">
+	        <props>
+	            <prop key="server.database.0">file:DATABASE/xdb;hsqldb.lock_file=false</prop>
+	            <prop key="server.dbname.0">xdb</prop>
+	        </props>
+	    </property>
+	</bean>
+	
+	<bean id="p6DataSource" class="com.p6spy.engine.spy.P6DataSource" primary="true">
+	    <constructor-arg>
+	        <ref bean="dataSource"/>
+	    </constructor-arg>
+	</bean>
+		
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${myframework.backend.datasource.driver}" /> 
+		<property name="url" value="${myframework.backend.datasource.url}" />
+		<property name="username" value="${myframework.backend.datasource.username}" />
+		<property name="password" value="${myframework.backend.datasource.password}" />
+	</bean>
+
+	<bean id="entityManagerFactory" depends-on="hsqlServer"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:packagesToScan="thejavalistener.fwk,app" p:dataSource-ref="p6DataSource">
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+				<property name="showSql" value="false" />
+			</bean>
+		</property>			
+		<property name="jpaProperties">
+	        <props>
+	            <prop key="hibernate.hbm2ddl.auto">update</prop>
+	        </props>
+	</property>
+	</bean>
+	
+	<!-- Transactions -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!-- enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="username" value="${myframework.backend.email.usr.user}" />
+        <property name="password" value="${myframework.backend.email.usr.password}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${myframework.backend.email.conf.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${myframework.backend.email.conf.smtp.auth}</prop>
+                <prop key="mail.smtp.host">${myframework.backend.email.conf.smtp.host}</prop>
+                <prop key="mail.smtp.port">${myframework.backend.email.conf.smtp.port}</prop>
+                <prop key="mail.smtp.ssl.trust">${myframework.backend.email.conf.smtp.ssl.trust}</prop>
+            </props>
+        </property>
+	</bean>
+
+</beans>
+	
+	
+	
+	
