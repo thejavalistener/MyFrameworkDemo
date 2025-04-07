@@ -29,7 +29,7 @@ SET FILES NIO TRUE
 SET FILES NIO SIZE 256
 SET FILES LOG TRUE
 SET FILES LOG SIZE 50
-SET FILES CHECK 9512
+SET FILES CHECK 10482
 SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
 CREATE USER SA PASSWORD DIGEST 'd41d8cd98f00b204e9800998ecf8427e'
 ALTER USER SA SET LOCAL TRUE
@@ -50,7 +50,7 @@ INSERT INTO BLOCKS VALUES(0,2147483647,0)
 SET SCHEMA PUBLIC
 INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('app.screen.PropertiesDemoScreen$EscuchaGuardar.email','{"type":"java.lang.String","data":"pablo@thejavalistener.com"}')
 INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('propo','{"type":"java.lang.String","data":"lolo"}')
-INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('thejavalistener.fwk.frontend.MyAppContainer.bounds','{"type":"java.awt.Rectangle","data":{"x":205,"y":37,"width":1270,"height":652}}')
+INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('thejavalistener.fwk.frontend.MyAppContainer.bounds','{"type":"java.awt.Rectangle","data":{"x":-7,"y":-7,"width":1550,"height":830}}')
 INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('thejavalistener.fwk.frontend.hql.screen.HQLScreen.console','{"type":"java.lang.String","data":"desc\n\nfrom Persona \n\nfrom MyFrameworkProperty\n\ndelete from MyFrameworkProperty p where p.name\u005cu003d\u005cu0027email\u005cu0027"}')
 INSERT INTO MYFRAMEWORK_PROPERTIES VALUES('thejavalistener.fwk.frontend.hql.screen.HQLScreen.dividerLocation','{"type":"java.lang.Integer","data":270}')
 INSERT INTO DEMO_PERSONA VALUES(13,'2009-04-02','Carlin Sopresatto')
